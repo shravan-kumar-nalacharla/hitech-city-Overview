@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HITEC City Mobile Presentation Deck</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --border: #334155;
+      --radius: 16px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --accent: #0284c7;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* Mobile Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .brand { font-size: 0.95rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 6px; }
+    .brand span { font-size: 0.72rem; padding: 2px 6px; background: rgba(56, 189, 248, 0.15); border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.3); }
+
+    .header-btns { display: flex; gap: 8px; }
+    .btn-sm { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); font-size: 0.78rem; font-weight: 600; padding: 6px 12px; border-radius: 20px; cursor: pointer; }
+
+    /* Slide Viewport */
+    .slide-viewport {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .slide-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      margin-bottom: 70px;
+    }
+
+    .slide-badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .slide-cat { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(56, 189, 248, 0.12); color: var(--accent); padding: 3px 10px; border-radius: 10px; }
+    .slide-num { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+
+    .slide-title { font-size: 1.45rem; font-weight: 800; line-height: 1.25; margin-bottom: 4px; }
+    .slide-sub { font-size: 0.88rem; color: var(--accent); font-weight: 600; margin-bottom: 14px; }
+    .authors-tag { font-size: 0.78rem; background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 6px 10px; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid var(--accent); }
+
+    .desc { font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 16px; }
+
+    /* Key Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+    .stat-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 10px 6px; border-radius: 10px; text-align: center; }
+    .stat-val { font-size: 1.1rem; font-weight: 800; color: var(--accent); }
+    .stat-lbl { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Bullet List */
+    .bullets { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .bullet-item { display: flex; gap: 8px; font-size: 0.85rem; line-height: 1.4; background: rgba(255,255,255,0.02); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); }
+    .bullet-item span { color: var(--accent); font-weight: 700; }
+
+    /* 2x2 Matrix Cards */
+    .matrix-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+    .m-card { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); }
+    .m-card.peach { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+    .m-card.rose { background: #fef2f2; color: #9f1239; border-color: #fecdd3; }
+    .m-card.yellow { background: #fefce8; color: #854d0e; border-color: #fef08a; }
+    .m-card.pink { background: #fdf4ff; color: #86198f; border-color: #f5d0fe; }
+    .m-title { font-size: 0.92rem; font-weight: 800; margin-bottom: 4px; }
+    .m-strat { font-size: 0.78rem; opacity: 0.9; margin-bottom: 6px; }
+    .m-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .m-tag { font-size: 0.7rem; font-weight: 600; padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,0.8); }
+
+    /* Tree Org Chart */
+    .tree-box { display: flex; flex-direction: column; gap: 8px; }
+    .tree-node { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
+    .tree-node.sponsor { background: #0f172a; color: #ffffff; border-color: #38bdf8; }
+    .tree-node.spv { background: #f0f9ff; color: #0369a1; border-color: #0284c7; }
+    .tree-node.auth { background: #faf5ff; color: #7e22ce; border-color: #a855f7; }
+    .tree-node.exec { background: #ffffff; color: #0f172a; border-color: #cbd5e1; }
+    .t-role { font-size: 0.72rem; opacity: 0.8; margin-top: 2px; }
+
+    /* Risk Table */
+    .risk-list { display: flex; flex-direction: column; gap: 8px; }
+    .risk-row { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 10px; font-size: 0.8rem; }
+    .r-head { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 4px; }
+    .r-id { color: var(--accent); }
+    .r-mit { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; }
+
+    /* Roadmap List */
+    .road-list { display: flex; flex-direction: column; gap: 10px; }
+    .road-item { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 10px 12px; border-radius: 10px; }
+    .r-year { font-size: 0.95rem; font-weight: 800; color: var(--accent); background: rgba(56,189,248,0.12); padding: 4px 8px; border-radius: 6px; }
+
+    /* Glossary List */
+    .g-list { display: flex; flex-direction: column; gap: 6px; }
+    .g-row { display: flex; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 8px; border-radius: 8px; align-items: center; }
+    .g-term { font-weight: 800; font-size: 0.78rem; background: var(--accent); color: #0f172a; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+    .g-full { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+
+    /* Thank You Banner */
+    .ty-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1px solid #38bdf8; border-radius: 14px; padding: 20px; text-align: center; color: white; margin-top: 14px; }
+    .ty-title { font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; }
+    .ty-sub { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; }
+
+    /* Bottom Navigation Toolbar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+    .slide-dots-row { display: flex; gap: 4px; align-items: center; }
+    .dot { width: 6px; height: 6px; border-radius: 3px; background: var(--border); transition: all 0.2s ease; }
+    .dot.active { width: 16px; background: var(--accent); }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <!-- Mobile Header -->
+  <header>
+    <div class="brand">
+      🏢 HITEC CITY <span>MOBILE PPT</span>
+    </div>
+    <div class="header-btns">
+      <button class="btn-sm" id="btn-theme-toggle">☀️ Light</button>
+    </div>
+  </header>
+
+  <!-- Slide Viewport -->
+  <div class="slide-viewport" id="viewport">
+    <div class="slide-card" id="slide-card-container">
+      <!-- Dynamic Slide Content Injected via JS -->
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-bar">
+    <button class="nav-btn" id="btn-prev">◄ Prev</button>
+    <div class="slide-dots-row" id="dots-row"></div>
+    <button class="nav-btn" id="btn-next">Next ►</button>
+  </div>
+
+  <script>
+    const SLIDES_DATA = [
+      {
+        id: 1,
+        title: "HITEC City Project",
+        subtitle: "Planning, Governance, Risk & Long-Term Impact",
+        cat: "CASE STUDY OVERVIEW",
+        authors: "N. Shravan Kumar (23EG110C43) & T. Chaitanya Kumar (23EG110C58) | B.Tech Data Science",
+        desc: "A comprehensive project management case study analyzing the iconic 151-acre flagship township development in Madhapur, Hyderabad that catalyzed India's IT export revolution.",
+        stats: [
+          { val: "151 Acres", lbl: "Site Area" },
+          { val: "5.2L sq ft", lbl: "Cyber Towers" },
+          { val: "$15B+", lbl: "IT Exports" }
+        ],
+        bullets: [
+          "Case Study Focus: Governance, PPP Structuring, Risk & Delivery",
+          "Anchor Infrastructure: Cyber Towers & STPI Earth Station",
+          "Long-Term Impact: $15B+ Annual IT Exports & 10 Lakhs+ Workforce"
+        ]
+      },
+      {
+        id: 2,
+        title: "Project Charter",
+        subtitle: "Formal Mandate, Governance Authority & Scope Boundaries",
+        cat: "PROJECT CHARTER",
+        desc: "Doc ID: HC-PC-1996-001 | Authorized by Government of AP in 1996.",
+        bullets: [
+          "Vision: Transform Hyderabad into a globally preferred IT destination",
+          "Objective: Deliver plug-and-play office infrastructure via PPP",
+          "In-Scope: 151-acre masterplan, Cyber Towers 8-spoke building, STPI earth station, 33/11kV substation grid",
+          "Out-of-Scope: Off-site city roads & external residential projects"
+        ]
+      },
+      {
+        id: 3,
+        title: "Stakeholder Power–Interest Matrix",
+        subtitle: "2D Power vs. Interest Grid & Engagement Strategies",
+        cat: "STAKEHOLDER ANALYSIS",
+        matrix: [
+          { type: "peach", title: "Quadrant II: Keep Satisfied", strat: "Engaged Supporters — Consult on Key Regulatory Milestones", tags: ["HUDA/HMDA", "Dept of Finance", "APSEB"] },
+          { type: "rose", title: "Quadrant I: Manage Closely ★", strat: "Key Decision Makers — Joint Decision Making & Consultation", tags: ["Govt of AP/TG", "APIIC (19%)", "L&T (81%)", "Microsoft"] },
+          { type: "yellow", title: "Quadrant III: Monitor", strat: "Minimal Impact — Informational Updates as Needed", tags: ["Vendors", "Media Outlets", "Residents"] },
+          { type: "pink", title: "Quadrant IV: Keep Informed", strat: "Potential Influencers — Communication & Feedback Loops", tags: ["IT Workforce", "NASSCOM", "Commuters"] }
+        ]
+      },
+      {
+        id: 4,
+        title: "PPP Project Governance Hierarchy",
+        subtitle: "Structured SPV & Executive Command Chain",
+        cat: "ORGANIZATION CHART",
+        treeNodes: [
+          { type: "sponsor", title: "Government of AP / Telangana", role: "State Sponsor & Sovereign Policy Enabler" },
+          { type: "spv", title: "L&T Infocity Ltd (81% Equity) & APIIC (19% Equity)", role: "Special Purpose Vehicle (SPV) Joint Venture" },
+          { type: "auth", title: "HUDA / HMDA Regulatory Board & SPV Leadership", role: "Statutory Guidance & Strategic Direction" },
+          { type: "exec", title: "Civil EPC Manager, Estate Lead & STPI Utilities", role: "Field Delivery & Facility Operations Units" }
+        ]
+      },
+      {
+        id: 5,
+        title: "Perimeter Infrastructure & 4 Gates",
+        subtitle: "Real-World Access & Traffic Circulation",
+        cat: "INFRASTRUCTURE",
+        desc: "Cyber Towers features 4 strategic perimeter access gates for optimal traffic flow.",
+        bullets: [
+          "Gate 1 (Front Entrance): Main concourse access for visitors & executives",
+          "Gate 2 (Front Exit): Feeds directly onto Hitech City Road rotary",
+          "Gate 3 (Rear Exit): Multi-level basement parking link (IBIS Corridor)",
+          "Gate 4 (Rear Service): Logistics & facility service delivery bay"
+        ]
+      },
+      {
+        id: 6,
+        title: "Project Lifecycle & Milestones",
+        subtitle: "4-Phase Phased Execution History (1996 – Present)",
+        cat: "LIFECYCLE TIMELINE",
+        stats: [
+          { val: "14 Months", lbl: "Fast-Track Build" },
+          { val: "Nov 1998", lbl: "Inauguration" },
+          { val: "4 Phases", lbl: "Lifecycle" }
+        ],
+        bullets: [
+          "1996 Inception: 151-acre site selection & land allocation",
+          "1997 SPV: Formation of L&T Infocity Ltd (81:19 JV)",
+          "1997–98 Build: 14-month fast-track pre-cast civil build & STPI link",
+          "1998–Present: Scaling into Cyber Gateway, Cyber Pearl & Mindspace"
+        ]
+      },
+      {
+        id: 7,
+        title: "Risk Register & Categorization",
+        subtitle: "Academic Risk Matrix (R-01 to R-10)",
+        cat: "RISK MANAGEMENT",
+        risks: [
+          { id: "R-01", name: "Cost Overrun & Funding Drag", mit: "PPP risk sharing & phased capex commitments" },
+          { id: "R-02", name: "Fast-Track Quality Control (14-mo)", mit: "L&T QA/QC audits & ISO safety compliance" },
+          { id: "R-04", name: "Utility Infrastructure Deficits", mit: "Captive 33kV substation & 100% N+1 DG backup" },
+          { id: "R-05", name: "Technology & Telecom Shift", mit: "STPI earth station & vertical fiber risers" },
+          { id: "R-06", name: "Market Demand Slowdown", mit: "Pre-committed anchor leases (Microsoft)" },
+          { id: "R-09", name: "Political Policy Continuity", mit: "Statutory SPV establishment & bipartisan MoUs" }
+        ]
+      },
+      {
+        id: 8,
+        title: "Mitigation & Future Roadmap",
+        subtitle: "Strategic Horizon (2024 – 2035)",
+        cat: "EXPANSION ROADMAP",
+        roadmap: [
+          { yr: "2024", name: "Kokapet Neopolis Expansion", desc: "Phase 2 commercial & financial district expansion." },
+          { yr: "2027", name: "Skill & Tech University", desc: "Establishing dedicated IT skill & AI research institute." },
+          { yr: "2030", name: "Airport Express Metro Link", desc: "Integrated Metro-IT smart transit corridor completion." },
+          { yr: "2035", name: "Net-Zero Carbon Township", desc: "Achieving 100% net-zero carbon footprint target." }
+        ]
+      },
+      {
+        id: 9,
+        title: "Key Outcomes & Strategic Legacy",
+        subtitle: "Sustained Long-Term Impact & References",
+        cat: "PROJECT OUTCOMES",
+        stats: [
+          { val: "$15B+", lbl: "Annual IT Exports" },
+          { val: "10 Lakhs+", lbl: "Direct IT Jobs" },
+          { val: "1,500+", lbl: "IT Enterprises" }
+        ],
+        bullets: [
+          "Executable Vision: Turned greenfield site into premier tech cluster",
+          "PPP Benchmark: Balanced public goals with private corporate speed",
+          "National Template: Established master framework for IT SEZs across India",
+          "Academic Refs: Govt of TG IT Report (2023); HMDA 2031; PMI PMBOK (7th ed.)"
+        ]
+      },
+      {
+        id: 10,
+        title: "Glossary, Summary & Thank You",
+        subtitle: "Full Forms & Final Acknowledgments",
+        cat: "SUMMARY & GLOSSARY",
+        glossary: [
+          { term: "PPP", full: "Public-Private Partnership" },
+          { term: "SPV", full: "Special Purpose Vehicle (81:19 JV)" },
+          { term: "APIIC", full: "Andhra Pradesh Industrial Infra Corp." },
+          { term: "HMDA", full: "Hyderabad Metropolitan Dev. Authority" },
+          { term: "STPI", full: "Software Technology Parks of India" },
+          { term: "EPC", full: "Engineering, Procurement & Construction" },
+          { term: "SEZ", full: "Special Economic Zone" },
+          { term: "PMBOK", full: "PMI PM Body of Knowledge (7th ed.)" }
+        ],
+        thankYou: {
+          title: "✨ THANK YOU!",
+          presenters: "N. Shravan Kumar (23EG110C43) & T. Chaitanya Kumar (23EG110C58)",
+          sub: "B.Tech Data Science — Project Management Case Study"
+        }
+      }
+    ];
+
+    let currentIdx = 0;
+    const container = document.getElementById('slide-card-container');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const dotsRow = document.getElementById('dots-row');
+
+    function renderDots() {
+      dotsRow.innerHTML = SLIDES_DATA.map((_, i) => `<div class="dot ${i === currentIdx ? 'active' : ''}"></div>`).join('');
+    }
+
+    function renderSlide(idx) {
+      const s = SLIDES_DATA[idx];
+      const curNum = idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`;
+      const totalNum = SLIDES_DATA.length < 10 ? `0${SLIDES_DATA.length}` : `${SLIDES_DATA.length}`;
+
+      let bodyHTML = '';
+
+      if (s.stats) {
+        bodyHTML += `<div class="stats-grid">${s.stats.map(st => `<div class="stat-box"><div class="stat-val">${st.val}</div><div class="stat-lbl">${st.lbl}</div></div>`).join('')}</div>`;
+      }
+
+      if (s.desc) {
+        bodyHTML += `<div class="desc">${s.desc}</div>`;
+      }
+
+      if (s.bullets) {
+        bodyHTML += `<div class="bullets">${s.bullets.map(b => `<div class="bullet-item"><span>•</span><div>${b}</div></div>`).join('')}</div>`;
+      }
+
+      if (s.matrix) {
+        bodyHTML += `<div class="matrix-grid">${s.matrix.map(m => `
+          <div class="m-card ${m.type}">
+            <div class="m-title">${m.title}</div>
+            <div class="m-strat">${m.strat}</div>
+            <div class="m-tags">${m.tags.map(t => `<span class="m-tag">${t}</span>`).join('')}</div>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      if (s.treeNodes) {
+        bodyHTML += `<div class="tree-box">${s.treeNodes.map(n => `
+          <div class="tree-node ${n.type}">
+            <div style="font-weight:700; font-size:0.88rem;">${n.title}</div>
+            <div class="t-role">${n.role}</div>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      if (s.risks) {
+        bodyHTML += `<div class="risk-list">${s.risks.map(r => `
+          <div class="risk-row">
+            <div class="r-head"><span class="r-id">${r.id}</span><span>${r.name}</span></div>
+            <div class="r-mit">Mitigation: ${r.mit}</div>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      if (s.roadmap) {
+        bodyHTML += `<div class="road-list">${s.roadmap.map(rm => `
+          <div class="road-item">
+            <div class="r-year">${rm.yr}</div>
+            <div>
+              <div style="font-weight:700; font-size:0.88rem;">${rm.name}</div>
+              <div style="font-size:0.78rem; color:var(--text-muted);">${rm.desc}</div>
+            </div>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      if (s.glossary) {
+        bodyHTML += `<div class="g-list">${s.glossary.map(g => `
+          <div class="g-row">
+            <span class="g-term">${g.term}</span>
+            <span class="g-full">${g.full}</span>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      if (s.thankYou) {
+        bodyHTML += `
+          <div class="ty-card">
+            <div class="ty-title">${s.thankYou.title}</div>
+            <div class="ty-sub">${s.thankYou.presenters}</div>
+            <div style="font-size:0.78rem; opacity:0.8;">${s.thankYou.sub}</div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="slide-badge-row">
+          <span class="slide-cat">${s.cat}</span>
+          <span class="slide-num">${curNum} / ${totalNum}</span>
+        </div>
+        <h2 class="slide-title">${s.title}</h2>
+        <div class="slide-sub">${s.subtitle}</div>
+        ${s.authors ? `<div class="authors-tag">🎓 ${s.authors}</div>` : ''}
+        ${bodyHTML}
+      `;
+
+      btnPrev.disabled = idx === 0;
+      btnNext.disabled = idx === SLIDES_DATA.length - 1;
+      renderDots();
+    }
+
+    btnPrev.addEventListener('click', () => {
+      if (currentIdx > 0) { currentIdx--; renderSlide(currentIdx); viewport.scrollTop = 0; }
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (currentIdx < SLIDES_DATA.length - 1) { currentIdx++; renderSlide(currentIdx); viewport.scrollTop = 0; }
+    });
+
+    // Touch Swipe Support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+    document.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50 && currentIdx < SLIDES_DATA.length - 1) {
+        currentIdx++; renderSlide(currentIdx); viewport.scrollTop = 0;
+      } else if (touchEndX - touchStartX > 50 && currentIdx > 0) {
+        currentIdx--; renderSlide(currentIdx); viewport.scrollTop = 0;
+      }
+    });
+
+    // Theme Toggle
+    const themeBtn = document.getElementById('btn-theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.textContent = isDark ? '🌙 Dark' : '☀️ Light';
+    });
+
+    renderSlide(0);
+  </script>
+</body>
+</html>
