@@ -1,0 +1,20 @@
+{
+  "name": "cyber-towers-3d-ppt",
+  "version": "1.0.0",
+  "description": "3D Smooth Animated Presentation featuring Cyber Towers 3D Model",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1 .",
+    "dev": "npx http-server -p 8080 -c-1 ."
+  },
+  "keywords": [
+    "threejs",
+    "3d",
+    "presentation",
+    "cyber-towers",
+    "webgl",
+    "gsap"
+  ],
+  "author": "",
+  "license": "ISC"
+}

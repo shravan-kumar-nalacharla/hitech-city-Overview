@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HITEC City 3D | Project Management Presentation</title>
+  <meta name="description" content="A state-of-the-art 3D animated web presentation featuring HITEC City 151-acre township case study, Cyber Towers, and perimeter gates.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="index.css">
+
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loader-screen">
+    <div class="loader-content">
+      <div class="glow-ring"></div>
+      <div class="loader-logo">
+        <h1>HITEC CITY 3D</h1>
+      </div>
+      <p class="loader-subtitle">Loading 151-Acre Township & Case Study Presentation...</p>
+      
+      <div class="progress-bar-container">
+        <div id="progress-bar" style="width: 0%;"></div>
+      </div>
+      <div id="progress-text">0%</div>
+
+      <div class="loader-badges">
+        <span>151-Acre Township</span>
+        <span>Cyber Towers GLB</span>
+        <span>4 Perimeter Gates</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main WebGL 3D Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- 3D Hotspots Overlay Container -->
+  <div id="hotspots-container"></div>
+
+  <!-- Header Navigation & Controls Bar -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-badge">3D PPT</div>
+      <div class="brand-title">HITEC CITY <span>PROJECT MANAGEMENT</span></div>
+    </div>
+
+    <!-- Top Right Controls Group -->
+    <div class="header-right-group">
+      <div class="gates-nav-bar">
+        <button class="btn-gate-nav outline-btn" id="btn-hitec-outline" title="Show 151-Acre HITEC City Perimeter Outline">📍 151-Acre Boundary</button>
+        <button class="btn-gate-nav" data-gate="0">🚪 Gate 1 Main</button>
+        <button class="btn-gate-nav" data-gate="1">🚪 Gate 2 Exit</button>
+        <button class="btn-gate-nav" data-gate="2">🚪 Gate 3 Parking</button>
+        <button class="btn-gate-nav" data-gate="3">🚪 Gate 4 Service</button>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-toggle-city" class="btn-action" title="Toggle 3D Hyderabad City Model">
+          <span class="icon">🏙️</span> City Map: OFF
+        </button>
+
+        <button id="btn-explore-mode" class="btn-action" title="Toggle Free 3D Camera Controls">
+          <span class="icon">🔍</span> Explore 3D
+        </button>
+
+        <button id="btn-sound" class="btn-icon" title="Toggle Sound FX">
+          <span id="sound-icon">🔊</span>
+        </button>
+
+        <button id="btn-notes" class="btn-icon" title="Speaker Notes (N)">
+          <span>📝</span>
+        </button>
+
+        <button id="btn-fullscreen" class="btn-icon" title="Toggle Fullscreen (F)">
+          <span>⛶</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Presentation Deck Overlay (Left Split Card) -->
+  <main id="slide-overlay">
+    <div class="slide-card glass-panel" id="slide-card">
+      <div class="slide-header">
+        <span class="category-badge" id="slide-category">CASE STUDY OVERVIEW</span>
+        <span class="slide-counter-badge" id="slide-number-badge">01 / 08</span>
+      </div>
+
+      <h1 class="slide-title" id="slide-title">Cyber Towers</h1>
+      <h2 class="slide-subtitle" id="slide-subtitle">Planning, Governance & Impact</h2>
+
+      <div class="slide-description" id="slide-description">
+        <!-- Injected dynamically -->
+      </div>
+
+      <ul class="slide-bullets" id="slide-bullets">
+        <!-- Injected dynamically -->
+      </ul>
+
+      <!-- Stats Grid -->
+      <div class="slide-stats-grid" id="slide-stats">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Compact Bottom-Right Control Toolbar -->
+  <footer class="controls-bar">
+    <div class="controls-left">
+      <button id="btn-prev" class="btn-nav" title="Previous Slide (← Left Arrow)">
+        ‹ Prev
+      </button>
+      <button id="btn-next" class="btn-nav primary" title="Next Slide (→ Right Arrow)">
+        Next ›
+      </button>
+    </div>
+
+    <!-- Slide Indicators Dots -->
+    <div class="slide-dots" id="slide-dots">
+      <!-- Dynamic Dots -->
+    </div>
+
+    <div class="controls-right">
+      <button id="btn-autoplay" class="btn-action-sm">
+        <span id="autoplay-icon">▶</span>
+        <span id="autoplay-label">Auto-Play</span>
+      </button>
+      <button id="btn-reset-cam" class="btn-action-sm" title="Reset Camera (R)">
+        ↺ Overview
+      </button>
+    </div>
+  </footer>
+
+  <!-- Speaker Notes Side Drawer -->
+  <aside id="speaker-notes-drawer" class="notes-drawer">
+    <div class="notes-header">
+      <h3>Speaker Notes 📝</h3>
+      <button id="btn-close-notes" class="btn-close">×</button>
+    </div>
+    <div class="notes-body" id="notes-content">
+      <p>Use arrow keys or navigation buttons. Click <strong>Explore 3D</strong> to orbit around Cyber Towers freely.</p>
+    </div>
+  </aside>
+
+  <!-- Application Logic Scripts -->
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

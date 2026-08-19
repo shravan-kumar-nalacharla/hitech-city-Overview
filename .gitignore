@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+.tempmediaStorage/
+scratch/
+# Exclude 252MB model from direct git push to avoid GitHub 100MB file limit
+Hyderabad_City_Urban_Merged.glb
